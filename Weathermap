@@ -1,0 +1,16 @@
+* Create a directory /usr/local/share/cacti/plugins:
+  mkdir /usr/local/share/cacti/plugins
+* Move all content of /usr/share/cacti/site/plugins to
+  /usr/local/share/cacti/plugins
+  mv /usr/share/cacti/site/plugins/* /usr/local/share/cacti/plugins/
+* Remove the empty /usr/share/cacti/site/plugins directory
+  rmdir /usr/share/cacti/site/plugins
+* Create the following symlinks:
+  ln -s /usr/local/share/cacti/plugins /usr/share/cacti/site/plugins
+  ln -s /usr/share/cacti/site/include /usr/local/share/cacti/include
+  ln -s /usr/share/cacti/site/lib /usr/local/share/cacti/lib
+
+ mv weathermap /usr/local/share/cacti/plugins/
+ 
+ /cacti/plugins/weathermap/check.php
+ 
