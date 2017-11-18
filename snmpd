@@ -1,0 +1,12 @@
+apt-get install snmpd
+vi /etc/snmp/snmpd.conf
+
+[root@bogon ~]# vim /etc/snmp/snmpd.conf    ←进入到snmpd的配置文件进行调整
+com2sec notConfigUser  192.168.1.103       public
+将默认的default改为cacti服务器的IP地址
+access  notConfigGroup ""   any  noauth  exact  all none none
+将默认的systemview改为all
+view all    included  .1            80
+找到第85行将开头的“#”去掉
+[root@bogon ~]# service snmpd start    ←启动snmp服务
+[root@bogon ~]# chkconfig snmpd on
