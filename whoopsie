@@ -1,0 +1,6 @@
+that it's the ubuntu crash database submission daemon
+
+vi /etc/defaults/whoopsie
+
+service whoopsie stop
+apt-gete purge whoopsie
