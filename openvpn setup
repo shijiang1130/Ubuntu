@@ -1,0 +1,82 @@
+wget https://git.io/vpn -O openvpn-install.sh
+ bash openvpn-install.sh
+ cat /etc/rc.local
+ iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -I FORWARD -s 10.8.0.0/24 -j ACCEPT
+iptables -I INPUT -p udp --dport 1194 -j ACCEPT
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -j SNAT --to 139.59.1.155
+
+
+
+more /etc/openvpn/server.conf
+port 1194
+proto udp
+dev tun
+sndbuf 0
+rcvbuf 0
+ca ca.crt
+cert server.crt
+key server.key
+dh dh.pem
+tls-auth ta.key 0
+topology subnet
+server 10.8.0.0 255.255.255.0
+ifconfig-pool-persist ipp.txt
+push "redirect-gateway def1 bypass-dhcp"
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
+keepalive 10 120
+cipher AES-128-CBC
+comp-lzo
+user nobody
+group nogroup
+persist-key
+persist-tun
+status openvpn-status.log
+verb 3
+crl-verify crl.pem
+
+
+systemctl stop openvpn@server
+systemctl start openvpn@server
+
+
+
+First, install the openvpn client, enter:
+$ sudo yum install openvpn
+
+OR
+$ sudo apt install openvpn
+
+Next, copy iphone.ovpn as follows:
+$ sudo cp iphone.ovpn /etc/openvpn/client.conf
+
+Test connectivity from the CLI:
+$ sudo openvpn --client --config /etc/openvpn/client.conf
+
+Your Linux system will automatically connect when computer restart using /etc/init.d/openvpn script:
+$ sudo /etc/init.d/openvpn start
+
+For systemd based system, use the following command:
+$ sudo systemctl start openvpn@client
+
+Test the connectivity:
+$ ping 10.8.0.1 #Ping to OpenVPN server gateway
+$ ip route #Make sure routing setup
+$ dig TXT +short o-o.myaddr.l.google.com @ns1.google.com #Make sure your public IP set to OpenVPN server
+
+
+How do I add a new client?
+For demo purpose I added a new device called iphone. Let us add one more device called googlephone by running the script again:
+$ sudo bash openvpn-install.sh
+
+Sample outputs:
+
+Looks like OpenVPN is already installed
+
+What do you want to do?
+   1) Add a cert for a new user
+   2) Revoke existing user cert
+   3) Remove OpenVPN
+   4) Exit
+Select an option [1-4]: 
