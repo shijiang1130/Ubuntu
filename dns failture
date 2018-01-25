@@ -1,0 +1,7 @@
+hosts:          files mdns4_minimal [NOTFOUND=return] dns mdns4
+
+remove the **[NOTFOUND=return]**
+
+restart /etc/init.d/networking
+
+the [NOTFOUND=return] prevents futher lookups if the first nameservwe doesn't respond correctly
