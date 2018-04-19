@@ -2,3 +2,5 @@ https://apt.dockerproject.org/repo/pool/main/d/docker-engine/
 
 
 wget https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_1.13.1-0~ubuntu-yakkety_amd64.deb
+
+https://kubernetes.io/docs/getting-started-guides/scratch/
