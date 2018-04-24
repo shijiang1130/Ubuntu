@@ -1,0 +1,45 @@
+方法一 修改 docker daemon 的启动参数 -g, --graph=""
+Path to use as the root of the Docker runtime. Default is /var/lib/docker.
+
+如 docker -d --graph=/opt/docker
+
+ 注： 这种方式只会临时修改，如果重启 docker daemon,就又会回到默认值。。。
+
+ 
+
+我们可以通过修改 docker daemon的配置文件的方式来保存我们修改，方法如下：
+默认情况下，docker daemon 会有一个默认的configuration 文件，此外，我们可以新建一个名为“daemon.json”文件的文件，我们在这个文件中的定义，会覆盖默认配置文件的内容文件。
+
+#cd etc/docker
+#vim daemon.json
+在这个文件里面加入我们的内容，即修改docker daemon 的 Rootpath
+
+{
+    "graph": "/data/docker"
+}
+重新 load 配置
+
+# systemctl daemon-reload
+重新启动 docker daemon
+
+# systemctl restart docker.service
+ 
+
+此时，我们再来看 docker 的信息，docker root dir 已经更改：
+
+# docker info
+
+
+ 
+
+ 
+
+ 
+ 
+方法二 挂载新目录到docker根目录
+mount -o bind /var/lib/docker /opt/docker 
+ 
+
+永久修改在需要在 /etc/fatab 添加:
+
+/opt/docker /var/lib/docker none bind 0 0
