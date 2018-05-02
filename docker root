@@ -29,13 +29,6 @@ Path to use as the root of the Docker runtime. Default is /var/lib/docker.
 
 # docker info
 
-
- 
-
- 
-
- 
- 
 方法二 挂载新目录到docker根目录
 mount -o bind /var/lib/docker /opt/docker 
  
@@ -43,3 +36,11 @@ mount -o bind /var/lib/docker /opt/docker
 永久修改在需要在 /etc/fatab 添加:
 
 /opt/docker /var/lib/docker none bind 0 0
+
+DOCKER habor http client 
+
+vi daemon.json 
+{
+    "graph": "/dockerdata",
+    "insecure-registries": ["ip"]
+}
