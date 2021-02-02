@@ -1,52 +1,16 @@
-# ubuntu
+https://releases.ubuntu.com/16.04/
 
-rrdtool 1.5 for ubuntu 16.10 build
+https://help.ubuntu.com/community/LiveCDCustomizationFromScratch
+https://help.ubuntu.com/lts/installation-guide/amd64/apb.html
+isolinux.cfg 是 ISO、光盘 引导的主入口。
+menu.cfg 在 syslinux.cfg 被 include ，按需修改。
+splash.png 是启动画面，按需修改。
+txt.cfg 在 menu.cfg 被 include ，添加 auto 和 file 参数。
 
-wget https://oss.oetiker.ch/rrdtool/pub/rrdtool-1.5.6.tar.gz
-apt-get install libpango1.0-dev libxml2-dev
+copy kfile 
+d-i  preseed/late_command       string cp -frv /cdrom/extra/* /opt/
 
-unknown group 'smmsp' in statoverride file
+or run script
+d-i preseed/late_command string in-target wget --output-document=/tmp/post-install.sh http://192.168.？.？/post-install.sh; in-target /bin/sh /tmp/post-install.sh
 
-~# cat /var/lib/dpkg/statoverride
-geoclue geoclue 755 /var/lib/geoclue
-root smmsp 2755 /usr/lib/sm.bin/sendmail
-root lp 775 /var/log/hp/tmp
-root postdrop 2555 /usr/sbin/postqueue
-postfix postdrop 2710 /var/spool/postfix/public
-root crontab 2755 /usr/bin/crontab
-root Debian-exim 640 /etc/exim4/passwd.client
-root mlocate 2755 /usr/bin/mlocate
-root root 1733 /var/lib/php/sessions
-root ssl-cert 710 /etc/ssl/private
-hplip root 755 /var/run/hplip
-root smmsp 2755 /usr/lib/sm.bin/mailstats
-root messagebus 4754 /usr/lib/dbus-1.0/dbus-daemon-launch-helper
-root postdrop 2555 /usr/sbin/postdrop
-
-~# dpkg-statoverride --remove /usr/lib/sm.bin/sendmail
-~# dpkg-statoverride --remove /usr/lib/sm.bin/mailstats
-~# cat /var/lib/dpkg/statoverride                      
-geoclue geoclue 755 /var/lib/geoclue
-root smmsp 2755 /usr/lib/sm.bin/sendmail
-root lp 775 /var/log/hp/tmp
-root postdrop 2555 /usr/sbin/postqueue
-postfix postdrop 2710 /var/spool/postfix/public
-root crontab 2755 /usr/bin/crontab
-root Debian-exim 640 /etc/exim4/passwd.client
-root mlocate 2755 /usr/bin/mlocate
-root root 1733 /var/lib/php/sessions
-root ssl-cert 710 /etc/ssl/private
-hplip root 755 /var/run/hplip
-root messagebus 4754 /usr/lib/dbus-1.0/dbus-daemon-launch-helper
-root postdrop 2555 /usr/sbin/postdrop
-
-BUILD_DIR=/tmp/rrdbuild
-INSTALL_DIR=/opt/rrdtool
-
- mkdir -p $BUILD_DIR
- cd $BUILD_DIR
- 
- gunzip -c rrdtool-1.5.6.tar.gz | tar xf -
- cd rrdtool-1.5.6
- ./configure --prefix=$INSTALL_DIR && make && make install
- 
+mkisofs  -o  k8s.iso   -b  isolinux/isolinux.bin  -c  isolinux/boot.cat  -no-emul-boot -boot-load-size 4 -boot-info-table -R -J -v -T ./
