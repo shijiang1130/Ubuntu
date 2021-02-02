@@ -1,3 +1,5 @@
+
+#https://r-pufky.github.io/docs/operating-systems/ubuntu/preseed/create-preseed-file.html
 d-i debian-installer/locale string en_US.UTF-8
 d-i debian-installer/language string en
 d-i console-setup/ask_detect boolean false
@@ -7,11 +9,14 @@ d-i netcfg/dhcp_timeout string 60
 d-i netcfg/get_hostname string unassigned-hostname
 d-i netcfg/get_domain string unassigned-domain
 d-i netcfg/wireless_wep string
-d-i mirror/protocol string http
-d-i mirror/country string china
-d-i mirror/http/hostname string mirrors.163.com
-d-i mirror/http/directory string /ubuntu
-d-i mirror/http/proxy string
+
+d-i apt-setup/no_mirror boolean true
+#all installer options used can be found at /var/log/installer/cdebconf/questions.dat
+#d-i mirror/protocol string http
+#d-i mirror/country string china
+#d-i mirror/http/hostname string mirrors.163.com
+#d-i mirror/http/directory string /ubuntu
+#d-i mirror/http/proxy string
 d-i clock-setup/utc boolean true
 d-i localechooser/shortlist/zh_CN select
 d-i time/zone string Asia/Chongqing
