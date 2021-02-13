@@ -17,6 +17,22 @@ d-i preseed/late_command string in-target wget --output-document=/tmp/post-insta
 
 mkisofs  -o  k8s.iso   -b  isolinux/isolinux.bin  -c  isolinux/boot.cat  -no-emul-boot -boot-load-size 4 -boot-info-table -R -J -v -T ./
 
+cd /media/cdrom/pool/extras
+apt install ebtables
+dpkg -i cri-tools*.deb
+dpkg -i lib*.deb
+dpkg -i socat*.deb
+dpkg -i con*.deb
+dpkg -i docker*.deb
+dpkg -i kube*.deb
+dpkg -i linux-*.deb
+
+
+unsquashfs filesystem.squashfs
+mksquashfs dir/ filesystem.squashfs1
+du -sx --block-size=1 ./ | cut -f1 > dir/install/filesystem.size
+
+
 
 https://help.ubuntu.com/community/InstallCDCustomization#Modify_pool_structure_to_include_more_packages
 
