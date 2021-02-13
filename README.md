@@ -32,6 +32,12 @@ unsquashfs filesystem.squashfs
 mksquashfs dir/ filesystem.squashfs1
 du -sx --block-size=1 ./ | cut -f1 > dir/install/filesystem.size
 
+mkdir ~/i
+zcat boot/initrd.gz >~/i.cpio
+cd ~/initrd
+cpio -idv <../initrd-2.6.22.12-0.1-default.cpio
+
+find . | cpio --quiet -c -o | gzip -9 -n > /boot/initrd.gz
 
 
 https://help.ubuntu.com/community/InstallCDCustomization#Modify_pool_structure_to_include_more_packages
