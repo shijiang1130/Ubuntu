@@ -43,6 +43,9 @@ find . -type f -print0 | xargs -0 md5sum > md5sum.txt
 
 https://help.ubuntu.com/community/InstallCDCustomization#Modify_pool_structure_to_include_more_packages
 
+rpm -ivh https://harbottle.gitlab.io/harbottle-main/7/x86_64/harbottle-main-release.rpm
+yum install apt
+apt-ftparchive generate config-deb
 
 install dpkg on centos
 yum install debootstrap.noarch
