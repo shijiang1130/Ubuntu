@@ -45,8 +45,11 @@ https://help.ubuntu.com/community/InstallCDCustomization#Modify_pool_structure_t
 
 rpm -ivh https://harbottle.gitlab.io/harbottle-main/7/x86_64/harbottle-main-release.rpm
 yum install apt
-apt-ftparchive generate config-deb
 
+# package file
+apt-ftparchive generate config-deb
+#release file
+apt-ftparchive release k8s/dists/k8s > k8s/dists/k8s/Release
 install dpkg on centos
 yum install debootstrap.noarch
 
