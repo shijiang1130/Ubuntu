@@ -4,10 +4,16 @@ https://releases.ubuntu.com/16.04/
 
 https://help.ubuntu.com/community/LiveCDCustomizationFromScratch
 https://help.ubuntu.com/lts/installation-guide/amd64/apb.html
-isolinux.cfg 是 ISO、光盘 引导的主入口。
-menu.cfg 在 syslinux.cfg 被 include ，按需修改。
-splash.png 是启动画面，按需修改。
-txt.cfg 在 menu.cfg 被 include ，添加 auto 和 file 参数。
+
+/isolinux/isolinux.cfg
+
+default install
+label install
+  menu label ^Install K8s Server
+  kernel /install/vmlinuz
+  append  file=/cdrom/preseed/k8s.seed auto=true vga=788 initrd=/install/initrd.gz quiet ---
+  
+  
 
 copy kfile 
 d-i  preseed/late_command       string cp -frv /cdrom/extra/* /opt/
@@ -49,7 +55,9 @@ yum install apt
 # package file
 apt-ftparchive generate config-deb
 #release file
+
 apt-ftparchive release k8s/dists/k8s > k8s/dists/k8s/Release
+
 install dpkg on centos
 yum install debootstrap.noarch
 
