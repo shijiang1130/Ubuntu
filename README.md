@@ -1,19 +1,11 @@
-https://git.kernel.org/pub/scm/boot/syslinux/syslinux.git/    ？=  https://github.com/geneC/syslinux
-
-https://releases.ubuntu.com/16.04/
-
-https://help.ubuntu.com/community/LiveCDCustomizationFromScratch
-https://help.ubuntu.com/lts/installation-guide/amd64/apb.html
+# update the kernel parameter to enable unattened installtion via iso file
 
 /isolinux/isolinux.cfg
-
 default install
 label install
   menu label ^Install K8s Server
   kernel /install/vmlinuz
-  append  file=/cdrom/preseed/k8s.seed auto=true vga=788 initrd=/install/initrd.gz quiet ---
-  
-  
+  append  preseed/file=/cdrom/preseed/k8s.seed auto=true debian-installer/locale=en_US console-setup/layoutcode=us ramdisk_size=16384 root=/dev/ram rw initrd=/install/initrd.gz quiet ---
 
 copy kfile 
 d-i  preseed/late_command       string cp -frv /cdrom/extra/* /opt/
@@ -41,13 +33,12 @@ du -sx --block-size=1 ./ | cut -f1 > dir/install/filesystem.size
 mkdir ~/i
 zcat boot/initrd.gz >~/i.cpio
 cd ~/initrd
-cpio -idv <../initrd-2.6.22.12-0.1-default.cpio
+cpio -idv < ../i.cpio
 
 find . | cpio --quiet -c -o | gzip -9 -n > /boot/initrd.gz
 
 find . -type f -print0 | xargs -0 md5sum > md5sum.txt
 
-https://help.ubuntu.com/community/InstallCDCustomization#Modify_pool_structure_to_include_more_packages
 
 rpm -ivh https://harbottle.gitlab.io/harbottle-main/7/x86_64/harbottle-main-release.rpm
 yum install apt
@@ -67,4 +58,3 @@ dapper  feisty     hoary.buildd  karmic  natty      precise  sarge.buildd      s
 edgy    gutsy      intrepid      lenny   oldstable  quantal  sarge.fakechroot  stable   unstable  warty.buildd
 etch    hardy      jaunty        lucid   oneiric    raring   saucy             stretch  utopic    wheezy
 
-https://wiki.syslinux.org/wiki/index.php?title=ISOLINUX
