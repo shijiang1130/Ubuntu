@@ -39,4 +39,4 @@ d-i grub-installer/only_debian boolean true
 d-i grub-installer/timeout string 0
 d-i debian-installer/add-kernel-opts string vga=normal nomodeset intel_idle.max_cstate=0 processor.max_cstate=1 swapaccount=1
 d-i finish-install/reboot_in_progress note
-d-i preseed/late_command string chroot /cdrom/pool/extras/setup.sh
+d-i preseed/late_command string chroot /target bash /cdrom/pool/extras/setup.sh
